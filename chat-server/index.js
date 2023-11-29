@@ -15,12 +15,15 @@ export const messages = [];
 io.on('connection', (socket) => {
     console.log('a user connected ->', socket.id);
 
-    socket.on("sendMessage", (message) => {
-        console.log(2)
-        messages.push(message);
-        console.log("messages:::", messages);
+    socket.on("sendMessage", (payload) => {
+        console.log("payload", payload);
+        messages.push(payload);
         io.emit("sendUpdatedMessageList", messages);
-    })
+    });
+
+    socket.on("disconnect", () => {
+        console.log('a user disconnected ->', socket.id);
+    });
 });
 
 
